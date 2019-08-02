@@ -5,7 +5,7 @@
 #######################
 
 # Kubernetes namespace where the stocktrader application is or will be installed.
-STOCKTRADER_NAMESPACE="stocktrader"
+STOCKTRADER_NAMESPACE="default"
 
 ###########################
 #  DB2-RELATED VARIABLES  #
@@ -15,7 +15,7 @@ STOCKTRADER_NAMESPACE="stocktrader"
 DB2_CHART="ibm-db2oltp-dev"
 
 # DB2 Helm chart version
-DB2_CHART_VERSION="3.1.0"
+DB2_CHART_VERSION="3.2.0"
 
 # DB2 Helm release name.  Set this if the DB2 chart is installed multiple times to indicate which one to use.  Otherwise leave it blank.
 DB2_RELEASE_NAME=""
