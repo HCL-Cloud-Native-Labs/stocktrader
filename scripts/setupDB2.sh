@@ -41,7 +41,7 @@ DB2_DNS_HOST=${DB2_SERVICE_NAME}.${DB2_NAMESPACE}
 # fetch db2inst1 password if not set
 if [ "$DB2_PASSWORD" = "" ]; then
   echo "Retrieving DB2 password"
-  DB2_PASSWORD=$(kubectl get secret -l ${LABEL} -n ${DB2_NAMESPACE} -o jsonpath="{.items[0].data.password}" | base64 -d)
+  DB2_PASSWORD=$(kubectl get secret -l ${LABEL} -n ${DB2_NAMESPACE} -o jsonpath="{.items[0].data.password}" | base64 -D)
   echo "Retrieved DB2 password"
 fi
 
