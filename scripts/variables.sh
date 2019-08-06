@@ -50,19 +50,19 @@ MQ_CHART="ibm-mqadvanced-server-dev"
 MQ_RELEASE_NAME=""
 
 # MQ app password.  The setup script attempts to find this value so set this only if the script is unable to do so.
-MQ_APP_PASSWORD=""
+MQ_APP_PASSWORD="my-app-password"
 
 # MQ queue manager name.  The setup script attempts to find this value so set this only if the script is unable to do so.
 MQ_QMGR=""
 
 # MQ service name.  The setup script attempts to find this value so set this only if the script is unable to do so.
-MQ_SERVICE_NAME=""
+MQ_SERVICE_NAME="mq-release-ibm-mq"
 
 # MQ port number
 MQ_PORT=1414
 
 # MQ Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-MQ_NAMESPACE=""
+MQ_NAMESPACE="default"
 
 
 ###########################
