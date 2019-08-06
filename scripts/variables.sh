@@ -76,7 +76,7 @@ ODM_CHART="ibm-odm-dev"
 ODM_CHART_VERSION="1.1.0"
 
 # ODM Helm release name.  Set this if the ODM chart is installed multiple times to indicate which one to use.  Otherwise leave it blank.
-ODM_RELEASE_NAME=""
+ODM_RELEASE_NAME="odm-release"
 
 # ODM admin user
 ODM_USER="odmAdmin"
@@ -85,13 +85,13 @@ ODM_USER="odmAdmin"
 ODM_PASSWORD="odmAdmin"
 
 # ODM service name.  The setup script attempts to find this value so set this only if the script is unable to do so.
-ODM_SERVICE_NAME=""
+ODM_SERVICE_NAME="odm-release-ibm-odm-dev"
 
 # ODM service nodeport.  The setup script attempts to find this value so set this only if the script is unable to do so.
 ODM_NODEPORT=""
 
 # ODM Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-ODM_NAMESPACE=""
+ODM_NAMESPACE="default"
 
 
 #############################
