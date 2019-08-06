@@ -50,7 +50,7 @@ MQ_CHART="ibm-mqadvanced-server-dev"
 MQ_RELEASE_NAME=""
 
 # MQ app password.  The setup script attempts to find this value so set this only if the script is unable to do so.
-MQ_APP_PASSWORD="my-app-password"
+MQ_APP_PASSWORD=""
 
 # MQ queue manager name.  The setup script attempts to find this value so set this only if the script is unable to do so.
 MQ_QMGR=""
