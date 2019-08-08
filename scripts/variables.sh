@@ -99,16 +99,16 @@ ODM_NAMESPACE="default"
 #############################
 
 # Redis Helm chart name
-REDIS_CHART="ibm-redis-ha-dev"
+REDIS_CHART="redis"
 
 # Redis Helm chart version
-REDIS_CHART_VERSION="1.1.0"
+REDIS_CHART_VERSION="7.0.1"
 
 # Redis Helm release name.  Set this if the Redis chart is installed multiple times to indicate which one to use.  Otherwise leave it blank.
-REDIS_RELEASE_NAME=""
+REDIS_RELEASE_NAME="redis-release"
 
 # Redis Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-REDIS_NAMESPACE=""
+REDIS_NAMESPACE="default"
 
 # Redis service name.  The setup script attempts to find this value so set this only if the script is unable to do so.
-REDIS_SERVICE_NAME=""
+REDIS_SERVICE_NAME="redis-release-master"
