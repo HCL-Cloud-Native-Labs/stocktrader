@@ -147,6 +147,6 @@ spec:
       - path: /trader
         backend:
           serviceName: {{ .Release.Name }}-trader-service
-          servicePort: 9443
+          servicePort: 9080
 {{- end }}
 {{- end }}
