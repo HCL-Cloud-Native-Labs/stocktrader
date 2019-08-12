@@ -69,13 +69,13 @@ spec:
           httpGet:
             path: /health
             port: 9080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 6
         livenessProbe:
           httpGet:
             path: /health
             port: 9080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 120
           periodSeconds: 6
 {{- end }}
         resources:
@@ -147,6 +147,6 @@ spec:
       - path: /trader
         backend:
           serviceName: {{ .Release.Name }}-trader-service
-          servicePort: 9080
+          servicePort: 9443
 {{- end }}
 {{- end }}
