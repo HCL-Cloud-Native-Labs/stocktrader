@@ -40,6 +40,9 @@ trader:
   image:
     repository: ibmstocktrader/trader
     tag: basicregistry
+    privateRegistry:
+      enabled: false
+      credentials: <your private registry secret name>
 tradr:
   enabled: false
   image:
