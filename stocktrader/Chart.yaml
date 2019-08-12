@@ -4,7 +4,7 @@ name: stocktrader
 version: 0.1.4
 icon: https://raw.githubusercontent.com/IBMStockTrader/stocktrader/master/stock-trader-icon.png
 sources:
-  - http://github.com/IBMStockTrader
+  - https://github.com/HCL-Cloud-Native-Labs/stocktrader
 maintainers:
-  - name: John W. Alcorn
-  - email: jalcorn@us.ibm.com
+  - name: Jeff Bunagan
+  - email: jeffrey.bunagan@hcl.com
