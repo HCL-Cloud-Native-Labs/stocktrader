@@ -208,6 +208,10 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
+{{- if .Values.portfolio.image.privateRegistry.enabled }}
+      imagePullSecrets:
+          - name: {{ .Values.portfolio.image.privateRegistry.credentials }}
+{{- end }}
 ---
 {{- if .Values.global.autoscale }}
 #Deploy the autoscaler
