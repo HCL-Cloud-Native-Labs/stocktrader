@@ -64,10 +64,6 @@ spec:
           - containerPort: 9080
           - containerPort: 9443
         imagePullPolicy: Always
-{{- if .Values.trader.image.privateRegistry.enabled }}
-        imagePullSecrets:
-        - name: {{ .Values.trader.image.privateRegistry.credentials }}
-{{- end }}
 {{- if .Values.global.healthCheck }}
         readinessProbe:
           httpGet:
@@ -89,6 +85,10 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
+{{- if .Values.trader.image.privateRegistry.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.trader.image.privateRegistry.credentials }}
+{{- end }}
 ---
 {{- if .Values.global.autoscale }}
 #Deploy the autoscaler
