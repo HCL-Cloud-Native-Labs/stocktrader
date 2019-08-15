@@ -57,7 +57,7 @@ if [ "$MQ_APP_PASSWORD" = "" ]; then
   echo "Retrieving MQ app password"
   MQ_APP_PASSWORD=$(kubectl get secret -l ${LABEL} -n ${MQ_NAMESPACE} -o jsonpath="{.items[0].data.appPassword}")
   if [ "$MQ_APP_PASSWORD" != "" ]; then
-      MQ_APP_PASSWORD=`echo "$MQ_APP_PASSWORD" | base64 -d`
+      MQ_APP_PASSWORD=`echo "$MQ_APP_PASSWORD" | base64 -D`
   fi
   echo "Retrieved MQ app password"
 fi

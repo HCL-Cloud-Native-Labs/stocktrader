@@ -25,8 +25,8 @@ service:
   port: 50000
   tsport: 55000
 db2inst:
-  instname: ""
-  password: ""
+  instname: "db2inst1"
+  password: "db2inst1"
 options:
   databaseName: "trader"
   oracleCompatibility: false

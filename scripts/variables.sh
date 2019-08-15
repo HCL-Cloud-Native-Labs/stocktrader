@@ -18,13 +18,13 @@ DB2_CHART="ibm-db2oltp-dev"
 DB2_CHART_VERSION="3.2.0"
 
 # DB2 Helm release name.  Set this if the DB2 chart is installed multiple times to indicate which one to use.  Otherwise leave it blank.
-DB2_RELEASE_NAME=""
+DB2_RELEASE_NAME="db2-release"
 
 # DB2 user
 DB2_USER="db2inst1"
 
 # DB2 password.  The setup script attempts to find this value so set this only if the script is unable to do so.
-DB2_PASSWORD=""
+DB2_PASSWORD="db2inst1"
 
 # DB2 service name.  The setup script attempts to find this value so set this only if the script is unable to do so.
 DB2_SERVICE_NAME=""
@@ -47,7 +47,7 @@ STOCKTRADER_DB="trader"
 MQ_CHART="ibm-mqadvanced-server-dev"
 
 # MQ Helm release name.  Set this if the MQ chart is installed multiple times to indicate which one to use.  Otherwise leave it blank.
-MQ_RELEASE_NAME=""
+MQ_RELEASE_NAME="mq-release"
 
 # MQ app password.  The setup script attempts to find this value so set this only if the script is unable to do so.
 MQ_APP_PASSWORD=""
