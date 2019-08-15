@@ -16,7 +16,7 @@ global:
     secretName: ""
 arch: ""
 image:
-  repository: ibmcom/db2-amd64
+  repository: ibmcom/db2
   tag: 11.5.0.0a
   pullPolicy: IfNotPresent
 service:

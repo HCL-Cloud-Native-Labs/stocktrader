@@ -108,9 +108,9 @@ queueManager:
   dev:
     secret:
       # name is the secret that contains the 'admin' user password and optionally the 'app' user password to use for messaging
-      name:
+      name: "mq-secret"
       # adminPasswordKey is the secret key that contains the 'admin' user password
-      adminPasswordKey:
+      adminPasswordKey: "adminPassword"
       # appPasswordKey is the secret key that contains the 'app' user password
       appPasswordKey:
 

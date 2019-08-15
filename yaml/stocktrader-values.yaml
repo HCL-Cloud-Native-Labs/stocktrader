@@ -57,7 +57,7 @@ messaging:
     repository: ibmstocktrader/messaging
     tag: latest
   notification:
-    url: http://{{ .Release.Name }}-notification-service:9080/messaging
+    url: http://{{ .Release.Name }}-notification-service:9080/notification
 notificationSlack:
   enabled: true
   image:
@@ -73,7 +73,7 @@ tradeHistory:
   image:
     repository: ibmstocktrader/trade-history
     tag: latest
-  url: http://{{ .Release.Name }}-trade-history-service:9080
+  url: http://{{ .Release.Name }}-trade-history-service:9080/trade-history
 looper:
   enabled: false
   image:
