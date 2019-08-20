@@ -52,8 +52,9 @@ Also use that namespace in any kubectl commands provided below in place of `stoc
 
 ## Install and configure DB2
 
-Install via Catalog:
+Install via catalog OR helm:
 
+Catalog
 1. Log in to your IBM Cloud Private management console.
 2. Click the `Catalog` button.
 3. Type `db2` into the search bar to find the IBM Db2 Developer-C Helm chart.  Click on the chart.
@@ -62,16 +63,16 @@ Install via Catalog:
     * Set the database name to `trader`.
     * Review the other parameters and complete all required fields.
     * Click the `Install` button.
-    
-OR
-
-Install via helm
-
+6. Monitor the deployment and verify that the DB2 pod starts.
+ 
+Helm
 1. Run following command
     ```console
     $ kubectl create secret generic watson --from-literal=url=<Url>/v3/tone?version=2017-09-21 --from-literal=id=<Username> --from-literal=pwd=<Password> -n stocktrader
     ```
 6. Monitor the deployment and verify that the DB2 pod starts.
+
+Configure
 7. Edit the `variables.sh` file in your copy of the `scripts` folder.
 Review the variable settings in the DB2 section.
 Change values if necessary.

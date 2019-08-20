@@ -32,12 +32,15 @@ portfolio:
   url: http://{{ .Release.Name }}-portfolio-service:9080/portfolio
 stockQuote:
   image:
-    repository: ibmstocktrader/stock-quote
+    repository: ilon2.icp:8500/stock-trader/stock-quote
     tag: latest
+    privateRegistry:
+      enabled: true
+      credentials: regsec
   url: http://{{ .Release.Name }}-stock-quote-service:9080/stock-quote
   apiConnect: https://api.us.apiconnect.ibmcloud.com/jalcornusibmcom-dev/sb/stocks
   iexTrading: https://cloud.iexapis.com/stable/stock
-  iexApiKey: <your IEX API key>
+  iexApiKey: pk_c367a17f95204ed496d9bb1256b8e774
 trader:
   enabled: true
   image:
@@ -117,7 +120,7 @@ mq:
   queue: NotificationQ
   channel: DEV.APP.SVRCONN
 redis:
-  urlWithCredentials: redis://<your credentials>@redis-release-master.default:6379
+  urlWithCredentials: redis://redis-release-master.default:6379
   cacheInterval: 60
 openwhisk:
   id: <your id>
