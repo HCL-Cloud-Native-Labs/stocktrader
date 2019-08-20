@@ -30,6 +30,7 @@ You must manually create the Istio routing rules (see the notification-slack and
 
 * IBM Cloud Private installed
 * IBM Cloud public account (trial account can be used)
+* Helm (optional for helm installations)
 
 The following installation instructions guide you through installing the dependent software (DB2, MQ, etc) and configuring it for use by the
 stocktrader application.  After the dependent software is installed and configured, the stocktrader application is installed.
@@ -51,6 +52,8 @@ Also use that namespace in any kubectl commands provided below in place of `stoc
 
 ## Install and configure DB2
 
+Install via Catalog:
+
 1. Log in to your IBM Cloud Private management console.
 2. Click the `Catalog` button.
 3. Type `db2` into the search bar to find the IBM Db2 Developer-C Helm chart.  Click on the chart.
@@ -59,6 +62,15 @@ Also use that namespace in any kubectl commands provided below in place of `stoc
     * Set the database name to `trader`.
     * Review the other parameters and complete all required fields.
     * Click the `Install` button.
+    
+OR
+
+Install via helm
+
+1. Run following command
+    ```console
+    $ kubectl create secret generic watson --from-literal=url=<Url>/v3/tone?version=2017-09-21 --from-literal=id=<Username> --from-literal=pwd=<Password> -n stocktrader
+    ```
 6. Monitor the deployment and verify that the DB2 pod starts.
 7. Edit the `variables.sh` file in your copy of the `scripts` folder.
 Review the variable settings in the DB2 section.
