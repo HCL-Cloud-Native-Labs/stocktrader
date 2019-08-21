@@ -27,7 +27,7 @@ x-ibm-configuration:
   assembly:
     execute:
     - invoke:
-        target-url: "https://api.iextrading.com/1.0/stock/{symbol}/quote"
+        target-url: "https://cloud.iexapis.com/stable/stock/{symbol}/quote?token=pk_c367a17f95204ed496d9bb1256b8e774"
         title: "Get stock quote"
     - gatewayscript:
         title: "Mediate results"
