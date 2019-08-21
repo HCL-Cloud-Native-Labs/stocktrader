@@ -30,7 +30,7 @@ You must manually create the Istio routing rules (see the notification-slack and
 
 * IBM Cloud Private installed
 * IBM Cloud public account (trial account can be used)
-* Helm (optional for helm installations)
+* Helm 
 
 The following installation instructions guide you through installing the dependent software (DB2, MQ, etc) and configuring it for use by the
 stocktrader application.  After the dependent software is installed and configured, the stocktrader application is installed.
@@ -46,29 +46,28 @@ where you cloned this project.
 You need to be logged in to your IBM Cloud Private instance via the CLI when running any of the configuration scripts.
 See [these instructions](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/manage_cluster/cli_commands.html#pr_login).
 
-The following instructions and the configuration scripts assume that you will deploy the stocktrader application in the `stocktrader` Kubernetes namespace.
+The following instructions and the configuration scripts assume that you will deploy the stocktrader application in the `default` Kubernetes namespace.
 If you want to use a different namespace, then update your copy of the `variables.sh` file in the `scripts` folder to change the desired namespace.
-Also use that namespace in any kubectl commands provided below in place of `stocktrader`.
+Also use that namespace in any kubectl commands provided below in place of `default`.
+
+All of the components will be installed using helm so you'll need to add the following helm repo's:
+
+```console
+$ helm repo add custom-ibm-charts https://hcl-cloud-native-labs.github.io/custom-ibm-charts
+$ helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
+$ helm repo add community-ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/community
+```
+    
 
 ## Install and configure DB2
 
-Install via catalog OR helm:
-
-Catalog
-1. Log in to your IBM Cloud Private management console.
-2. Click the `Catalog` button.
-3. Type `db2` into the search bar to find the IBM Db2 Developer-C Helm chart.  Click on the chart.
-4. Perform the prerequisites for DB2 installation as directed by the chart's instructions.
-5. Click the `Configure` button to display the chart's configuration parameters.
-    * Set the database name to `trader`.
-    * Review the other parameters and complete all required fields.
-    * Click the `Install` button.
-6. Monitor the deployment and verify that the DB2 pod starts.
- 
-Helm
-1. Run following command
+Install via helm
+1. Go to [DB2 helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev)
+2. Perform the prerequisites for DB2 installation as directed by the chart's instructions.
+    * [Docker Container](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev#docker-container-prereq-1) is the only one needed since the installation won't use persistence.
+3. Install using the following command
     ```console
-    $ kubectl create secret generic watson --from-literal=url=<Url>/v3/tone?version=2017-09-21 --from-literal=id=<Username> --from-literal=pwd=<Password> -n stocktrader
+    $ helm install --name db2-release --set global.image.secretName=docker-secret custom-ibm-charts/ibm-db2oltp-dev -f yaml/db2-values.yaml --namespace=default --tls
     ```
 6. Monitor the deployment and verify that the DB2 pod starts.
 

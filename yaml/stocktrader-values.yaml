@@ -59,6 +59,9 @@ messaging:
   image:
     repository: ibmstocktrader/messaging
     tag: latest
+    privateRegistry:
+      enabled: false
+      credentials: regsec
   notification:
     url: http://{{ .Release.Name }}-notification-service:9080/notification
 notificationSlack:

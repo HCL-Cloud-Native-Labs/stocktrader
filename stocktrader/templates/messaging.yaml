@@ -99,3 +99,7 @@ spec:
             cpu: 100m
             memory: 128Mi
 {{- end }}
+{{- if .Values.messaging.image.privateRegistry.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.messaging.image.privateRegistry.credentials }}
+{{- end }}
