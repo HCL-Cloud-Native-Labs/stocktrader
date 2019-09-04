@@ -38,7 +38,7 @@ stockQuote:
       enabled: true
       credentials: regsec
   url: http://{{ .Release.Name }}-stock-quote-service:9080/stock-quote
-  apiConnect: https://api.us.apiconnect.ibmcloud.com/jalcornusibmcom-dev/sb/stocks
+  apiConnect: https://api.eu-gb.apiconnect.appdomain.cloud/jeffreybunaganhclcom-dev/sb/stocks
   iexTrading: https://cloud.iexapis.com/stable/stock
   iexApiKey: pk_c367a17f95204ed496d9bb1256b8e774
 trader:
@@ -118,7 +118,7 @@ mq:
   host: mq-release-ibm-mq.default
   port: 1414
   id: app
-  password: bXktYXBwLXBhc3N3b3Jk
+  password:
   queueManager: mqrelease
   queue: NotificationQ
   channel: DEV.APP.SVRCONN
@@ -126,9 +126,9 @@ redis:
   urlWithCredentials: redis://redis-release-master.default:6379
   cacheInterval: 60
 openwhisk:
-  id: <your id>
-  password: <your password>
-  url: https://openwhisk.ng.bluemix.net/api/v1/namespaces/jalcorn%40us.ibm.com_dev/actions/PostLoyaltyLevelToSlack
+  id: 3971be8c-74db-46bb-8f24-c91df76183d8
+  password: GWO0JmQpoIFbNzkzqmuGhU1gMMTcGKLH73GiZsFuYpZf3fPWLXIlkxwSBiDH5XMt
+  url: https://eu-gb.functions.cloud.ibm.com/api/v1/namespaces/jeffrey.bunagan%40hcl.com_dev/actions/stocktrader/PostLoyaltyLevelToSlack
 twitter:
   consumerKey: <your consumer key>
   consumerSecret: <your consumer secret>

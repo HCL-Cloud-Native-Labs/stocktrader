@@ -33,7 +33,7 @@ DB2_SERVICE_NAME=""
 DB2_PORT=50000
 
 # DB2 Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-DB2_NAMESPACE=""
+DB2_NAMESPACE="default"
 
 # Database name that you created for the stocktrader application
 STOCKTRADER_DB="trader"

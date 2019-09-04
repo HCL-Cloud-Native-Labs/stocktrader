@@ -50,7 +50,7 @@ The following instructions and the configuration scripts assume that you will de
 If you want to use a different namespace, then update your copy of the `variables.sh` file in the `scripts` folder to change the desired namespace.
 Also use that namespace in any kubectl commands provided below in place of `default`.
 
-All of the components will be installed using helm so you'll need to add the following helm repo's:
+All of the components will be installed using helm so you'll need to add the following helm repos:
 
 ```console
 $ helm repo add custom-ibm-charts https://hcl-cloud-native-labs.github.io/custom-ibm-charts
@@ -62,7 +62,7 @@ $ helm repo add community-ibm-charts https://raw.githubusercontent.com/IBM/chart
 ## Install and configure DB2
 
 Install via helm
-1. Go to [DB2 helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev)
+1. Go to [DB2 helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev).
 2. Perform the prerequisites for DB2 installation as directed by the chart's instructions.
     * [Docker Container](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev#docker-container-prereq-1) is the only one needed since the installation won't use persistence.
 3. Install using the following command
@@ -83,7 +83,8 @@ Change values if necessary.
 
 ## Install and configure MQ
 
-1. Log in to your IBM Cloud Private management console.
+Install via helm
+1. Go to [MQ helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev)
 2. Click the `Catalog` button.
 3. Type `mq` into the search bar to find the IBM MQ Advanced for Developers Helm chart.  Click on the chart.
 4. Perform the prerequisites for MQ installation as directed by the chart's instructions.
