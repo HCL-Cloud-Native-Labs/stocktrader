@@ -51,7 +51,7 @@ dataPVC:
   # name sets part of the name for this Persistent Volume Claim
   name: "data"
   ## storageClassName is the name of the Storage Class to use, or an empty string for no Storage Class
-  storageClassName: "nfs-client"
+  storageClassName: "rbd"
   ## size is the minimum size of the Persistent Volume
   size: 10Gi
 
@@ -62,7 +62,7 @@ logPVC:
   # name sets part of the name for this Persistent Volume Claim
   name: "log"
   ## storageClassName is the name of the Storage Class to use, or an empty string for no Storage Class
-  storageClassName: "nfs-client"
+  storageClassName: "rbd"
   ## size is the minimum size of the Persistent Volume
   size: 10Gi
 
@@ -73,7 +73,7 @@ qmPVC:
   # name sets part of the name for this Persistent Volume Claim
   name: "qm"
   ## storageClassName is the name of the Storage Class to use, or an empty string for no Storage Class
-  storageClassName: "nfs-client"
+  storageClassName: "rbd"
   ## size is the minimum size of the Persistent Volume
   size: 10Gi
 

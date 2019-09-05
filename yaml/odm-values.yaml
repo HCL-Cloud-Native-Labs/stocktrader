@@ -48,9 +48,9 @@ decisionCenter:
 internalDatabase:
   populateSampleData: true
   persistence:
-    enabled: true
+    enabled: false
     useDynamicProvisioning: true
-    storageClassName: "nfs-client"
+    storageClassName: "rbd"
     resources:
       requests:
         storage: 4Gi

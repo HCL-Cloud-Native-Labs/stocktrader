@@ -69,13 +69,13 @@ Install via helm
     ```console
     $ helm install --name db2-release --set global.image.secretName=docker-secret custom-ibm-charts/ibm-db2oltp-dev -f yaml/db2-values.yaml --namespace=default --tls
     ```
-6. Monitor the deployment and verify that the DB2 pod starts.
+4. Monitor the deployment and verify that the DB2 pod starts.
 
 Configure
-7. Edit the `variables.sh` file in your copy of the `scripts` folder.
+1. Edit the `variables.sh` file in your copy of the `scripts` folder.
 Review the variable settings in the DB2 section.
 Change values if necessary.
-8. Open a command window on your workstation.
+2. Open a command window on your workstation.
     * Set the current directory to the `scripts` folder.
     * Run the `./setupDB2.sh` script.
     This script configures a secret for the portfolio application to access DB2 with the proper endpoint and credentials.
@@ -85,17 +85,22 @@ Change values if necessary.
 
 Install via helm
 1. Go to [MQ helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev)
-2. Click the `Catalog` button.
-3. Type `mq` into the search bar to find the IBM MQ Advanced for Developers Helm chart.  Click on the chart.
-4. Perform the prerequisites for MQ installation as directed by the chart's instructions.
-5. Click the `Configure` button to display the chart's configuration parameters.
-    * Review the parameters and complete all required fields.
-    * Click the `Install` button.
-6. Monitor the deployment and verify that the MQ pod starts.
-7. Edit the `variables.sh` file in your copy of the `scripts` folder.
+2. Perform the prerequisites for MQ installation as directed by the chart's instructions.
+    * [Creating a Secret to store queue manager credentials](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev#creating-a-secret-to-store-queue-manager-credentials) using the command below.
+        ```console
+        $ kubectl create -f yaml/mq-secret.yaml -n default
+        ```
+3. Install using the following command
+    ```console
+    $ helm install --name mq-release ibm-charts/ibm-mqadvanced-server-dev --set license=accept --set queueManager.dev.secret.name=mq-secret --set queueManager.dev.secret.adminPasswordKey=adminPassword -f yaml/mq-values.yaml --namespace=default --tls
+    ```
+4. Monitor the deployment and verify that the MQ pod starts.
+
+Configure
+1. Edit the `variables.sh` file in your copy of the `scripts` folder.
 Review the variable settings in the MQ section.
 Change values if necessary.
-8. Open a command window on your workstation.
+2. Open a command window on your workstation.
     * Set the current directory to the `scripts` folder.
     * Run the `./setupMQ.sh` script.
     This script configures a secret for the portfolio application to access MQ with the proper endpoint and credentials.
@@ -103,19 +108,22 @@ Change values if necessary.
 
 ## Install and configure ODM
 
-1. Log in to your IBM Cloud Private management console.
-2. Click the `Catalog` button.
-3. Type `odm` into the search bar to find the IBM Operational Decision Manager (ODM) Helm chart.  Click on the chart.
-4. Perform the prerequisites for ODM installation as directed by the chart's instructions.
-5. Click the `Configure` button to display the chart's configuration parameters.
-    * Review the parameters and complete all required fields.
-    * Click the `Install` button.
-6. Monitor the deployment and verify that the ODM pod starts.
-7. Install [curl](https://curl.haxx.se/download.html) and [jq](https://stedolan.github.io/jq/download/) on your workstation if you do not already have them.
-8. Edit the `variables.sh` file in your copy of the `scripts` folder.
+Install via helm
+1. Go to [ODM helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-odm-dev)
+2. Perform the prerequisites for ODM installation as directed by the chart's instructions.
+    * None
+3. Install using the following command
+    ```console
+    $ helm install --name odm-release ibm-charts/ibm-odm-dev -f yaml/odm-values.yaml --namespace default --tls
+    ```
+4. Monitor the deployment and verify that the ODM pod starts.
+
+Configure
+1. Install [curl](https://curl.haxx.se/download.html) and [jq](https://stedolan.github.io/jq/download/) on your workstation if you do not already have them.
+2. Edit the `variables.sh` file in your copy of the `scripts` folder.
 Review the variable settings in the ODM section.
 Change values if necessary.
-9. Open a command window on your workstation.
+3. Open a command window on your workstation.
     * Set the current directory to the `scripts` folder.
     * Run the `./setupODM.sh` script.
     This script configures a secret for the portfolio application to access ODM with the proper endpoint and credentials.
@@ -123,18 +131,22 @@ Change values if necessary.
 
 ## Install and configure Redis
 
-1. Log in to your IBM Cloud Private management console.
-2. Click the `Catalog` button.
-3. Type `redis` into the search bar to find the Redis Helm chart.  Click on the chart.
-4. Perform the prerequisites for ODM installation as directed by the chart's instructions.
-5. Click the `Configure` button to display the chart's configuration parameters.
-    * Review the parameters and complete all required fields.
-    * Click the `Install` button.
-6. Monitor the deployment and verify that the Redis pods start.
-7. Edit the `variables.sh` file in your copy of the `scripts` folder.
+Install via helm
+1. Go to [Redis helm chart](https://github.com/IBM/charts/tree/master/community/redis)
+2. Perform the prerequisites for ODM installation as directed by the chart's instructions.
+    * None
+3. Install using the following command
+    ```console
+    $ helm install --name odm-release ibm-charts/ibm-odm-dev -f yaml/odm-values.yaml --namespace default --tls
+    ```
+4. Monitor the deployment and verify that the ODM pod starts.
+
+Configure
+1. Monitor the deployment and verify that the Redis pods start.
+2. Edit the `variables.sh` file in your copy of the `scripts` folder.
     * Review the variable settings in the Redis section.
     * Change values if necessary.
-8. Open a command window on your workstation.
+3. Open a command window on your workstation.
     * Set the current directory to the `scripts` folder.
     * Run the `./setupRedis.sh` script.
     This script configures a secret for the portfolio application to access Redis with the proper endpoint.
