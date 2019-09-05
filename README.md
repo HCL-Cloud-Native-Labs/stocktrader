@@ -254,7 +254,7 @@ If you want to deploy any of those projects, you will need to request it via com
 Here is a sample helm install command.
 
     ```console
-    helm install stocktrader --tls --name stocktrader --namespace stocktrader --set notificationSlack.enabled=true
+    helm install --name stocktrader custom-ibm-charts/stocktrader -f yaml/stocktrader-values.yaml --namespace default --set notificationSlack.enabled=true --tls
     ```
 
     This command creates a Helm release named `stocktrader`.  The Kubernetes resources are created in a namespace called `stocktrader`.

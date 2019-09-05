@@ -1,12 +1,12 @@
 #!/bin/bash
 # Copyright [2018] IBM Corp. All Rights Reserved.
-# 
+#
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
-# 
+#
 #        http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #    Unless required by applicable law or agreed to in writing, software
 #    distributed under the License is distributed on an "AS IS" BASIS,
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ fi
 LABEL="chart=${ODM_CHART}-${ODM_CHART_VERSION}"
 if [ "$ODM_RELEASE_NAME" != "" ]; then
   LABEL="${LABEL},release=${ODM_RELEASE_NAME}"
+  echo "LABEL: $LABEL"
 fi
 
 # fetch ODM service namespace if not set
@@ -42,7 +43,7 @@ fi
 if [ "$ODM_SERVICE_NAME" = "" ]; then
   echo "Retrieving ODM service name"
   ODM_SERVICE_NAME=$(kubectl get service -l ${LABEL} -n ${ODM_NAMESPACE} -o jsonpath="{.items[0].metadata.name}")
-  echo "Retrieved ODM service name: $ODM_SERVICE_NAME" 
+  echo "Retrieved ODM service name: $ODM_SERVICE_NAME"
 fi
 
 # form ODM DNS service name
@@ -52,7 +53,7 @@ echo "Creating Kubernetes secret for stocktrader to access ODM"
 kubectl create secret generic odm --from-literal=url=http://${ODM_DNS_HOST}:9060/DecisionService/rest/v1/ICP_Trader_Dev_1/determineLoyalty  --from-literal=id=$ODM_USER --from-literal=pwd=$ODM_PASSWORD -n $STOCKTRADER_NAMESPACE
 
 # Get a node for REST API calls
-NODE_IP=$(kubectl get nodes --output=jsonpath="{.items[0].metadata.name}")
+ODM_NODE_IP=$(kubectl get pod -l ${LABEL} -n ${ODM_NAMESPACE} --output=jsonpath="{.items[0].status.hostIP}")
 
 # Get ODM node port for REST API calls
 if [ "$ODM_NODEPORT" = "" ]; then
@@ -68,7 +69,7 @@ STATUS=$(curl \
  -F "file=@${STOCKTRADER_DECISION_SERVICE};type=application/x-zip-compressed" \
  -w %{http_code} \
  -o import.out \
- http://${NODE_IP}:$ODM_NODEPORT/decisioncenter-api/v1/decisionservices/import --user $ODM_USER:$ODM_PASSWORD)
+ http://${ODM_NODE_IP}:$ODM_NODEPORT/decisioncenter-api/v1/decisionservices/import --user $ODM_USER:$ODM_PASSWORD)
 
 if [ "$STATUS" != "200" ]; then
   echo "Importing stocktrader decision service failed"
@@ -84,7 +85,7 @@ echo "Finding deployment id"
 STATUS=$(curl \
  -w %{http_code} \
  -o find.out \
- http://${NODE_IP}:$ODM_NODEPORT/decisioncenter-api/v1/decisionservices/${DECISION_ID}/deployments --user $ODM_USER:$ODM_PASSWORD)
+ http://${ODM_NODE_IP}:$ODM_NODEPORT/decisioncenter-api/v1/decisionservices/${DECISION_ID}/deployments --user $ODM_USER:$ODM_PASSWORD)
 
 if [ "$STATUS" != "200" ]; then
   echo "Finding deployment id failed"
@@ -99,7 +100,7 @@ STATUS=$(curl \
  -X POST \
  -w %{http_code} \
  -o deploy.out \
- http://${NODE_IP}:$ODM_NODEPORT/decisioncenter-api/v1/deployments/${DEPLOYMENT_ID}/deploy --user $ODM_USER:$ODM_PASSWORD)
+ http://${ODM_NODE_IP}:$ODM_NODEPORT/decisioncenter-api/v1/deployments/${DEPLOYMENT_ID}/deploy --user $ODM_USER:$ODM_PASSWORD)
 
 if [ "$STATUS" != "200" ]; then
   echo "Deployment failed"

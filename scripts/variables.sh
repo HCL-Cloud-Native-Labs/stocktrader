@@ -73,7 +73,7 @@ MQ_NAMESPACE="default"
 ODM_CHART="ibm-odm-dev"
 
 # ODM Helm chart version
-ODM_CHART_VERSION="1.1.0"
+ODM_CHART_VERSION="2.2.0"
 
 # ODM Helm release name.  Set this if the ODM chart is installed multiple times to indicate which one to use.  Otherwise leave it blank.
 ODM_RELEASE_NAME="odm-release"
