@@ -32,19 +32,20 @@ portfolio:
   url: http://{{ .Release.Name }}-portfolio-service:9080/portfolio
 stockQuote:
   image:
-    repository: ilon2.icp:8500/stock-trader/stock-quote
+    repository: ibmstocktrader/stock-quote
     tag: latest
     privateRegistry:
-      enabled: true
+      enabled: false
       credentials: regsec
   url: http://{{ .Release.Name }}-stock-quote-service:9080/stock-quote
-  apiConnect: https://api.eu-gb.apiconnect.appdomain.cloud/jeffreybunaganhclcom-dev/sb/stocks
+  # apiConnect: https://api.eu-gb.apiconnect.appdomain.cloud/jeffreybunaganhclcom-dev/sb/stocks
+  apiConnect: https://api.us.apiconnect.ibmcloud.com/jalcornusibmcom-dev/sb/stocks
   iexTrading: https://cloud.iexapis.com/stable/stock
   iexApiKey: pk_c367a17f95204ed496d9bb1256b8e774
 trader:
   enabled: true
   image:
-    repository: ibmstocktrader/trader
+    repository: jeffreybunagan/trader
     tag: basicregistry
     privateRegistry:
       enabled: false

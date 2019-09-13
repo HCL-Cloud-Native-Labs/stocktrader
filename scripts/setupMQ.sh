@@ -1,12 +1,12 @@
 #!/bin/bash
 # Copyright [2018] IBM Corp. All Rights Reserved.
-# 
+#
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
-# 
+#
 #        http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #    Unless required by applicable law or agreed to in writing, software
 #    distributed under the License is distributed on an "AS IS" BASIS,
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ LABEL="chart=${MQ_CHART}"
 if [ "$MQ_RELEASE_NAME" != "" ]; then
   LABEL="${LABEL},release=${MQ_RELEASE_NAME}"
 fi
+echo "LABEL is: $LABEL"
 
 # fetch MQ service namespace if not set
 if [ "$MQ_NAMESPACE" = "" ]; then
@@ -39,7 +40,7 @@ if [ "$MQ_SERVICE_NAME" = "" ]; then
       break
     fi
   done
-  echo "Retrieved MQ service name: $MQ_SERVICE_NAME" 
+  echo "Retrieved MQ service name: $MQ_SERVICE_NAME"
 fi
 
 # form MQ DNS service name

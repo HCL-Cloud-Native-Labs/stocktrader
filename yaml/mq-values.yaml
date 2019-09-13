@@ -42,7 +42,7 @@ metadata:
 # persistence section specifies persistence settings which apply to the whole chart
 persistence:
   # enabled is whether to use Persistent Volumes or not
-  enabled: true
+  enabled: false
   # useDynamicProvisioning is whether or not to use Storage Classes to dynamically create Persistent Volumes
   useDynamicProvisioning: true
 

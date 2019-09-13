@@ -58,7 +58,7 @@ spec:
               configMapKeyRef:
                 name: {{ .Release.Name }}-config
                 key: jwt.issuer
-          - name: APIC_URL
+          - name: API_CONNECT_URL
             valueFrom:
               configMapKeyRef:
                 name: {{ .Release.Name }}-config

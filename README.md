@@ -28,9 +28,9 @@ You must manually create the Istio routing rules (see the notification-slack and
 
 ## Prerequisites
 
-* IBM Cloud Private installed
+* OpenShift Container Platform installed
 * IBM Cloud public account (trial account can be used)
-* Helm 
+* Helm/Tiller
 
 The following installation instructions guide you through installing the dependent software (DB2, MQ, etc) and configuring it for use by the
 stocktrader application.  After the dependent software is installed and configured, the stocktrader application is installed.
@@ -57,14 +57,23 @@ $ helm repo add custom-ibm-charts https://hcl-cloud-native-labs.github.io/custom
 $ helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
 $ helm repo add community-ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/community
 ```
-    
+
+Also needed is the setup of Helm/Tiller. Follow Steps 1 - 4 of the [Getting started with Helm on OpenShift](https://blog.openshift.com/getting-started-helm-openshift/). Once finished, give appropriate access to Tiller using the command:
+```console
+$ oc create clusterrolebinding tiller-binding --clusterrole=cluster-admin --user=system:serviceaccount:tiller:tiller
+``` 
 
 ## Install and configure DB2
 
 Install via helm
 1. Go to [DB2 helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev).
 2. Perform the prerequisites for DB2 installation as directed by the chart's instructions.
-    * [Docker Container](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev#docker-container-prereq-1) is the only one needed since the installation won't use persistence.
+    * [PodSecurityPolicy Requirements](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev#podsecuritypolicy-requirements), specifically running the script for Red Hat OpenShift platform.
+        * Add proper SecurityContextConstraint to `default` user using:
+        ```console
+        $ oc adm policy add-scc-to-user privileged -z default -n db2
+        ```
+    * [Docker Container](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev#docker-container-prereq-1).
 3. Install using the following command
     ```console
     $ helm install --name db2-release --set global.image.secretName=docker-secret custom-ibm-charts/ibm-db2oltp-dev -f yaml/db2-values.yaml --namespace=default --tls
@@ -86,6 +95,11 @@ Change values if necessary.
 Install via helm
 1. Go to [MQ helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev)
 2. Perform the prerequisites for MQ installation as directed by the chart's instructions.
+    * [Red Hat OpenShift SecurityContextConstraints Requirements](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev#red-hat-openshift-securitycontextconstraints-requirements) using the pre-install scripts given.
+        * Add proper SecurityContextConstraint to `default` user using:
+        ```console
+        $ oc adm policy add-scc-to-user privileged -z default -n mq
+        ```
     * [Creating a Secret to store queue manager credentials](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev#creating-a-secret-to-store-queue-manager-credentials) using the command below.
         ```console
         $ kubectl create -f yaml/mq-secret.yaml -n default
@@ -111,7 +125,14 @@ Change values if necessary.
 Install via helm
 1. Go to [ODM helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-odm-dev)
 2. Perform the prerequisites for ODM installation as directed by the chart's instructions.
-    * None
+    * [Red Hat OpenShift SecurityContextConstraints Requirements](https://github.com/IBM/charts/tree/master/stable/ibm-odm-dev#red-hat-openshift-securitycontextconstraints-requirements) needs to be executed using the following:
+        ```console
+        $ kubectl create -f yaml/ibm-odm-dev-scc.yaml --validate=false
+        ```    
+        * Add proper SecurityContextConstraint to `default` user using:
+        ```console
+        $ oc adm policy add-scc-to-user privileged -z default -n odm
+        ```
 3. Install using the following command
     ```console
     $ helm install --name odm-release ibm-charts/ibm-odm-dev -f yaml/odm-values.yaml --namespace default --tls
@@ -134,10 +155,13 @@ Change values if necessary.
 Install via helm
 1. Go to [Redis helm chart](https://github.com/IBM/charts/tree/master/community/redis)
 2. Perform the prerequisites for ODM installation as directed by the chart's instructions.
-    * None
+    * Add proper SecurityContextConstraint to `default` user using:
+        ```console
+        $ oc adm policy add-scc-to-user privileged -z default -n redis2
+        ```
 3. Install using the following command
     ```console
-    $ helm install --name odm-release ibm-charts/ibm-odm-dev -f yaml/odm-values.yaml --namespace default --tls
+    $ helm install --name redis-release community-ibm-charts/redis -f yaml/redis-values.yaml --namespace default --tls
     ```
 4. Monitor the deployment and verify that the ODM pod starts.
 
@@ -164,10 +188,16 @@ Make sure your kubectl context is set to your ICP instance.
 Enter the following command.
 
     ```console
-    kubectl create secret generic watson --from-literal=url=<Url>/v3/tone?version=2017-09-21 --from-literal=id=<Username> --from-literal=pwd=<Password> -n stocktrader
+    $ kubectl create secret generic watson --from-literal=url=<Url>/v3/tone?version=2017-09-21 --from-literal=id=<Username> --from-literal=pwd=<Password> -n stocktrader
     ```
 
     where `<Url>`, `<Username>` and `<Password>` are the credentials that appear on the `Manage` tab of the tone analyzer service.
+    
+    Luckily, one is already provided for you so just run  the following command:
+    
+    ```console
+    $ kubectl create -f yaml/watson-secret.yaml -n default
+    ```
 
 ## Install stock API with API Connect
 

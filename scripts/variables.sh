@@ -33,7 +33,7 @@ DB2_SERVICE_NAME=""
 DB2_PORT=50000
 
 # DB2 Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-DB2_NAMESPACE="default"
+DB2_NAMESPACE="db2"
 
 # Database name that you created for the stocktrader application
 STOCKTRADER_DB="trader"
@@ -62,7 +62,7 @@ MQ_SERVICE_NAME="mq-release-ibm-mq"
 MQ_PORT=1414
 
 # MQ Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-MQ_NAMESPACE="default"
+MQ_NAMESPACE="mq2"
 
 
 ###########################
@@ -91,7 +91,7 @@ ODM_SERVICE_NAME="odm-release-ibm-odm-dev"
 ODM_NODEPORT=""
 
 # ODM Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-ODM_NAMESPACE="default"
+ODM_NAMESPACE="odm"
 
 
 #############################
@@ -108,7 +108,7 @@ REDIS_CHART_VERSION="7.0.1"
 REDIS_RELEASE_NAME="redis-release"
 
 # Redis Kubernetes namespace.  The setup script attempts to find this value so set this only if the script is unable to do so.
-REDIS_NAMESPACE="default"
+REDIS_NAMESPACE="redis2"
 
 # Redis service name.  The setup script attempts to find this value so set this only if the script is unable to do so.
 REDIS_SERVICE_NAME="redis-release-master"
