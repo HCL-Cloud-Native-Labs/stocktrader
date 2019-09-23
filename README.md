@@ -46,9 +46,9 @@ where you cloned this project.
 You need to be logged in to your IBM Cloud Private instance via the CLI when running any of the configuration scripts.
 See [these instructions](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.3/manage_cluster/cli_commands.html#pr_login).
 
-The following instructions and the configuration scripts assume that you will deploy the stocktrader application in the `default` Kubernetes namespace.
+The following instructions and the configuration scripts assume that you will deploy the stocktrader application in the `stocktrader` Kubernetes namespace.
 If you want to use a different namespace, then update your copy of the `variables.sh` file in the `scripts` folder to change the desired namespace.
-Also use that namespace in any kubectl commands provided below in place of `default`.
+Also use that namespace in any kubectl commands provided below in place of `stocktrader`.
 
 All of the components will be installed using helm so you'll need to add the following helm repos:
 
