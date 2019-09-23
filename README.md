@@ -71,7 +71,7 @@ $ oc new-project stocktrader
 
 Add proper SecurityContextConstraint to `default` user using:
 ```console
-$ oc adm policy add-scc-to-user privileged -z stocktrader -n stocktrader
+$ oc adm policy add-scc-to-user privileged -z default -n stocktrader
 ```
 
 ## Install and configure DB2
