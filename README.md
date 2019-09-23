@@ -63,20 +63,26 @@ Also needed is the setup of Helm/Tiller. Follow Steps 1 - 4 of the [Getting star
 $ oc create clusterrolebinding tiller-binding --clusterrole=cluster-admin --user=system:serviceaccount:tiller:tiller
 ``` 
 
+Login to OCP cluster and create `stocktrader` project
+```console
+$ oc login <hostname>
+$ oc new-project stocktrader
+``` 
+
+Add proper SecurityContextConstraint to `default` user using:
+```console
+$ oc adm policy add-scc-to-user privileged -z stocktrader -n stocktrader
+```
+
 ## Install and configure DB2
 
 Install via helm
 1. Go to [DB2 helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev).
 2. Perform the prerequisites for DB2 installation as directed by the chart's instructions.
-    * [PodSecurityPolicy Requirements](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev#podsecuritypolicy-requirements), specifically running the script for Red Hat OpenShift platform.
-        * Add proper SecurityContextConstraint to `default` user using:
-        ```console
-        $ oc adm policy add-scc-to-user privileged -z default -n db2
-        ```
     * [Docker Container](https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev#docker-container-prereq-1).
 3. Install using the following command
     ```console
-    $ helm install --name db2-release --set global.image.secretName=docker-secret custom-ibm-charts/ibm-db2oltp-dev -f yaml/db2-values.yaml --namespace=default --tls
+    $ helm install --name db2-release --set global.image.secretName=docker-secret custom-ibm-charts/ibm-db2oltp-dev -f yaml/db2-values.yaml --namespace=stocktrader --tls
     ```
 4. Monitor the deployment and verify that the DB2 pod starts.
 
@@ -95,18 +101,13 @@ Change values if necessary.
 Install via helm
 1. Go to [MQ helm chart](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev)
 2. Perform the prerequisites for MQ installation as directed by the chart's instructions.
-    * [Red Hat OpenShift SecurityContextConstraints Requirements](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev#red-hat-openshift-securitycontextconstraints-requirements) using the pre-install scripts given.
-        * Add proper SecurityContextConstraint to `default` user using:
-        ```console
-        $ oc adm policy add-scc-to-user privileged -z default -n mq
-        ```
     * [Creating a Secret to store queue manager credentials](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev#creating-a-secret-to-store-queue-manager-credentials) using the command below.
         ```console
-        $ kubectl create -f yaml/mq-secret.yaml -n default
+        $ kubectl create -f yaml/mq-secret.yaml -n stocktrader
         ```
 3. Install using the following command
     ```console
-    $ helm install --name mq-release ibm-charts/ibm-mqadvanced-server-dev --set license=accept --set queueManager.dev.secret.name=mq-secret --set queueManager.dev.secret.adminPasswordKey=adminPassword -f yaml/mq-values.yaml --namespace=default --tls
+    $ helm install --name mq-release ibm-charts/ibm-mqadvanced-server-dev --set license=accept --set queueManager.dev.secret.name=mq-secret --set queueManager.dev.secret.adminPasswordKey=adminPassword -f yaml/mq-values.yaml --namespace=stocktrader 
     ```
 4. Monitor the deployment and verify that the MQ pod starts.
 
@@ -128,14 +129,10 @@ Install via helm
     * [Red Hat OpenShift SecurityContextConstraints Requirements](https://github.com/IBM/charts/tree/master/stable/ibm-odm-dev#red-hat-openshift-securitycontextconstraints-requirements) needs to be executed using the following:
         ```console
         $ kubectl create -f yaml/ibm-odm-dev-scc.yaml --validate=false
-        ```    
-        * Add proper SecurityContextConstraint to `default` user using:
-        ```console
-        $ oc adm policy add-scc-to-user privileged -z default -n odm
-        ```
+        ```   
 3. Install using the following command
     ```console
-    $ helm install --name odm-release ibm-charts/ibm-odm-dev -f yaml/odm-values.yaml --namespace default --tls
+    $ helm install --name odm-release ibm-charts/ibm-odm-dev -f yaml/odm-values.yaml --namespace stocktrader 
     ```
 4. Monitor the deployment and verify that the ODM pod starts.
 
@@ -155,13 +152,10 @@ Change values if necessary.
 Install via helm
 1. Go to [Redis helm chart](https://github.com/IBM/charts/tree/master/community/redis)
 2. Perform the prerequisites for ODM installation as directed by the chart's instructions.
-    * Add proper SecurityContextConstraint to `default` user using:
-        ```console
-        $ oc adm policy add-scc-to-user privileged -z default -n redis2
-        ```
+    * None
 3. Install using the following command
     ```console
-    $ helm install --name redis-release community-ibm-charts/redis -f yaml/redis-values.yaml --namespace default --tls
+    $ helm install --name redis-release community-ibm-charts/redis -f yaml/redis-values.yaml --namespace stocktrader 
     ```
 4. Monitor the deployment and verify that the ODM pod starts.
 
@@ -196,7 +190,7 @@ Enter the following command.
     Luckily, one is already provided for you so just run  the following command:
     
     ```console
-    $ kubectl create -f yaml/watson-secret.yaml -n default
+    $ kubectl create -f yaml/watson-secret.yaml -n stocktrader
     ```
 
 ## Install stock API with API Connect
@@ -224,7 +218,7 @@ Make sure your kubectl context is set to your ICP instance.
 Enter the following command.
 
     ```console
-    kubectl create secret generic stockquote --from-literal=url=<URL>/stocks -n stocktrader
+    $ kubectl create secret generic stockquote --from-literal=url=<URL>/stocks -n stocktrader
     ```
 
     where `<URL>` is the value you copied to your clipboard.
@@ -244,9 +238,9 @@ If you want to install the stocktrader Slack notification project, follow these 
 4. Run the following commands.
 
     ```console
-    ibmcloud fn action get stocktrader/PostLoyaltyLevelToSlack --url
+    $ ibmcloud fn action get stocktrader/PostLoyaltyLevelToSlack --url
 
-    ibmcloud fn property get --auth
+    $ ibmcloud fn property get --auth
     ```
 
     The first command displays the URL of the cloud function that was created.
@@ -256,7 +250,7 @@ If you want to install the stocktrader Slack notification project, follow these 
 Run the following command.
 
     ```console
-    kubectl create secret generic openwhisk --from-literal=url=<URL> --from-literal=id=<ID> --from-literal=pwd=<PASSWORD> -n stocktrader
+    $ kubectl create secret generic openwhisk --from-literal=url=<URL> --from-literal=id=<ID> --from-literal=pwd=<PASSWORD> -n stocktrader
     ```
 
     where `<URL>` is the URL of the cloud function that was created and `<ID>` and `<PASSWORD>` are the id and password from the credentials.
@@ -270,7 +264,7 @@ If you want to install the stocktrader Twitter notification project, follow thes
 Run the following command.
 
     ```console
-    kubectl create secret generic twitter --from-literal=consumerKey=<CONSUMER_KEY> --from-literal=consumerSecret=<CONSUMER_SECRET> --from-literal=accessToken=<ACCESS_TOKEN> --from-literal=accessTokenSecret=<ACCESS_TOKEN_SECRET> -n stocktrader
+    $ kubectl create secret generic twitter --from-literal=consumerKey=<CONSUMER_KEY> --from-literal=consumerSecret=<CONSUMER_SECRET> --from-literal=accessToken=<ACCESS_TOKEN> --from-literal=accessTokenSecret=<ACCESS_TOKEN_SECRET> -n stocktrader
     ```
 
     where `<CONSUMER_KEY>`, `<CONSUMER_SECRET>`, `<ACCESS_TOKEN>` and `<ACCESS_TOKEN_SECRET>` are obtained from Twitter following successful creation of your Twitter app.
@@ -284,8 +278,23 @@ If you want to deploy any of those projects, you will need to request it via com
 Here is a sample helm install command.
 
     ```console
-    helm install --name stocktrader custom-ibm-charts/stocktrader -f yaml/stocktrader-values.yaml --namespace default --set notificationSlack.enabled=true --tls
+    $ helm install --name stocktrader custom-ibm-charts/stocktrader -f yaml/stocktrader-values.yaml --namespace stocktrader --set notificationSlack.enabled=true
     ```
 
     This command creates a Helm release named `stocktrader`.  The Kubernetes resources are created in a namespace called `stocktrader`.
     The ``--set`` argument shows how to deploy an optional project, in this case notification-slack.
+
+## Access stocktrader 
+
+1. Login to Openshift Web Console
+2. Create Route for `stocktrader-trader-service` by:
+    - Go to Application Console (top left) > stocktrader (project) > Applications > Services > stocktrader-trader-service > Routes > Create Route
+    ![Create Route](create-route.png)
+3. Configure Route settings: 
+    - Target Port > 9443 ---> 9443 (TCP) > Security > Secure route (checked) > TLS Termination > Passthrough > Create
+    ![Route Settings](route-settings.png)
+4. Access `stocktrader-trader-service` Route hostname:
+    ![Route Hostname](route-hostname.png)
+5. Add `/trader` context root to hostname URL, which should bring you to:
+    ![Landing page](landing-page.png)
+6. Login using username/password, `stock/trader` or `admin/admin`

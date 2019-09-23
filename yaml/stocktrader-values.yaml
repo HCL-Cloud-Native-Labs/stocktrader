@@ -18,9 +18,9 @@
 global:
   replicas: 1
   autoscale: false
-  monitoring: true
+  monitoring: false
   ingress: false
-  healthCheck: true
+  healthCheck: false
   jsonLogging: false
 portfolio:
   image:
@@ -45,7 +45,7 @@ stockQuote:
 trader:
   enabled: true
   image:
-    repository: jeffreybunagan/trader
+    repository: ibmstocktrader/trader
     tag: basicregistry
     privateRegistry:
       enabled: false
