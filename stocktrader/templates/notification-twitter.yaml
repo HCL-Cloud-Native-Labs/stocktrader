@@ -81,24 +81,24 @@ spec:
 {{- if .Values.global.healthCheck }}
         readinessProbe:
           httpGet:
-            path: /health
+            path: /health/ready
             port: 9080
           initialDelaySeconds: 30
-          periodSeconds: 6
+          periodSeconds: 15
         livenessProbe:
           httpGet:
-            path: /health
+            path: /health/live
             port: 9080
           initialDelaySeconds: 60
-          periodSeconds: 6
+          periodSeconds: 15
 {{- end }}
         resources:
           limits:
-            cpu: 500m
-            memory: 500Mi
+            cpu: 1000m
+            memory: 1000Mi
           requests:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 250m
+            memory: 256Mi
 ---
 {{- if .Values.global.autoscale }}
 #Deploy the autoscaler
