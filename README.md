@@ -190,7 +190,7 @@ Enter the following command.
     Luckily, one is already provided for you so just run  the following command:
     
     ```console
-    $ kubectl create -f yaml/watson-secret.yaml -n stocktrader
+    $ k create secret generic watson --from-literal=url='https://gateway-lon.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21' --from-literal=id=apikey --from-literal=pwd=TD1Cx0ppdTLakzkJdRbRpSHaf0jHcBR6NL-mNqqMPqDo -n stocktrader
     ```
 
 ## Install stock API with API Connect
@@ -278,7 +278,7 @@ If you want to deploy any of those projects, you will need to request it via com
 Here is a sample helm install command.
 
     ```console
-    $ helm install --name stocktrader custom-ibm-charts/stocktrader -f yaml/stocktrader-values.yaml --namespace stocktrader --set notificationSlack.enabled=true
+    $ helm install --name stocktrader custom-ibm-charts/stocktrader -f yaml/stocktrader-values.yaml --set notificationSlack.enabled=true --namespace stocktrader 
     ```
 
     This command creates a Helm release named `stocktrader`.  The Kubernetes resources are created in a namespace called `stocktrader`.
